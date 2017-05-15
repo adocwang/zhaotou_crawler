@@ -1,0 +1,18 @@
+{
+    "require": {
+        "illuminate/database": "^5.2",
+        "php-di/php-di": "^5.4",
+        "mnapoli/silly": "^1.5",
+        "querypath/QueryPath": "^3.0",
+        "mongodb/mongodb": "^1.0",
+        "jwage/purl": "^0.0.7",
+        "cheprasov/php-redis-client": "^1.5",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "BuildInfo\\": "app"
+        }
+    }
+}
