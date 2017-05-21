@@ -1,4 +1,4 @@
 /.idea
 /vendor
 /composer.lock
-/config/mongo.config.php
+/config/mongo_config.php
