@@ -7,7 +7,6 @@
  */
 
 return [
-    'username' => 'root',
-    'password' => '15309164',
-    'authSource' => 'admin',
+    'username' => 'build_info',
+    'password' => '15309164'
 ];

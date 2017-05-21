@@ -25,7 +25,7 @@ abstract class BaseCrawler
     public static $proxyId = 0;
     public $useproxy = true;
     public $lastRequestInfo;
-    private $proxyConfig=[];
+    private $proxyConfig = [];
     public $mongoConnection;
 
     function __construct($urlRaw)
@@ -34,7 +34,13 @@ abstract class BaseCrawler
         $this->url = str_replace('{page}', $this->page, $this->urlRaw);
         $this->baseUri = new \Purl\Url($this->url);
         $this->proxyConfig = require ROOT_DIR . '/config/mayidaili.php';
-        $this->mongoConnection=new \MongoDB\Client('mongodb://localhost:27017',require ROOT_DIR . '/config/mongo_config.php');
+        $mongoConfig = require ROOT_DIR . '/config/mongo_config.php';
+        if (isset($mongoConfig['username']) && $mongoConfig['username']) {
+            $uri = 'mongodb://' . $mongoConfig['username'] . ":" . $mongoConfig['password'] . '@' . $mongoConfig['host'] . ':' . $mongoConfig['port'];
+        } else {
+            $uri = 'mongodb://' . $mongoConfig['host'] . ':' . $mongoConfig['port'];
+        }
+        $this->mongoConnection = new \MongoDB\Client($uri);
     }
 
     function doRequest($url = '', $postData = [])
@@ -82,7 +88,7 @@ abstract class BaseCrawler
 //                        }
 //                    }
 //                    $options['proxy'] = ['http' => 'tcp://' . trim(self::$proxies[self::$proxyId])];
-                    $options['proxy'] = $this->proxyConfig['ip'].':'.$this->proxyConfig['port'];
+                    $options['proxy'] = $this->proxyConfig['ip'] . ':' . $this->proxyConfig['port'];
 //                    $options['proxy'] = '127.0.0.1:8888';
                 }
 //                print_r($options);exit;

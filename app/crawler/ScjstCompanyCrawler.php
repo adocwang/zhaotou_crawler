@@ -64,7 +64,7 @@ class ScjstCompanyCrawler extends BaseCrawler
 //        $companyNeedUpdate = true;//for debug
 
         $personNeedUpdate = true;
-        if (!empty($companyInDb)) {
+        if (!empty($companyInDb) && !empty($companyInDb->personUpdateTime)) {
             if ($companyInDb->personUpdateTime > (time() - 3600 * 24 * 7)) {
                 $personNeedUpdate = false;
             }
