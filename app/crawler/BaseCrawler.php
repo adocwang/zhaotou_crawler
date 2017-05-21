@@ -26,6 +26,7 @@ abstract class BaseCrawler
     public $useproxy = true;
     public $lastRequestInfo;
     private $proxyConfig=[];
+    public $mongoConnection;
 
     function __construct($urlRaw)
     {
@@ -33,6 +34,7 @@ abstract class BaseCrawler
         $this->url = str_replace('{page}', $this->page, $this->urlRaw);
         $this->baseUri = new \Purl\Url($this->url);
         $this->proxyConfig = require ROOT_DIR . '/config/mayidaili.php';
+        $this->mongoConnection=new \MongoDB\Client('mongodb://localhost:27017',require ROOT_DIR . '/config/mongo_config.php');
     }
 
     function doRequest($url = '', $postData = [])

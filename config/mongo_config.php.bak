@@ -1,0 +1,13 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: wangyibo
+ * Date: 5/21/17
+ * Time: 12:22
+ */
+
+return [
+    'username' => 'root',
+    'password' => '15309164',
+    'authSource' => 'admin',
+];

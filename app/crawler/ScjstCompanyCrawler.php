@@ -51,7 +51,7 @@ class ScjstCompanyCrawler extends BaseCrawler
     function saveCompany($id)
     {
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->company;
+        $collection = $this->mongoConnection->build_info1->company;
         //判断这个人的ID是否最近才抓过
         $companyInDb = $collection->findOne(['siteId' => $id]);
         $companyNeedUpdate = true;
