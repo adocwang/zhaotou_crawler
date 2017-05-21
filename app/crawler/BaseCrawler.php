@@ -25,12 +25,14 @@ abstract class BaseCrawler
     public static $proxyId = 0;
     public $useproxy = true;
     public $lastRequestInfo;
+    private $proxyConfig=[];
 
     function __construct($urlRaw)
     {
         $this->urlRaw = $urlRaw;
         $this->url = str_replace('{page}', $this->page, $this->urlRaw);
         $this->baseUri = new \Purl\Url($this->url);
+        $this->proxyConfig = require ROOT_DIR . '/config/mayidaili.php';
     }
 
     function doRequest($url = '', $postData = [])
@@ -44,7 +46,7 @@ abstract class BaseCrawler
         $client = new Client();
         $seconds = 2;
         $sleepTimes = 0;
-        $timeout = 15;
+        $timeout = 10;
         if (!empty($this->timeout)) {
             $timeout = $this->timeout;
         }
@@ -78,8 +80,8 @@ abstract class BaseCrawler
 //                        }
 //                    }
 //                    $options['proxy'] = ['http' => 'tcp://' . trim(self::$proxies[self::$proxyId])];
-//                    $options['proxy'] = '123.56.160.119:8123';
-                    $options['proxy'] = '127.0.0.1:8888';
+                    $options['proxy'] = $this->proxyConfig['ip'].':'.$this->proxyConfig['port'];
+//                    $options['proxy'] = '127.0.0.1:8888';
                 }
 //                print_r($options);exit;
 //                echo self::$proxies[$proxyId];exit;
@@ -159,9 +161,9 @@ abstract class BaseCrawler
         //设置时区（使用中国时间，以免时区不同导致认证错误）
         date_default_timezone_set("Asia/Shanghai");
 //AppKey 信息，请替换
-        $appKey = '162257779';
+        $appKey = $this->proxyConfig['appKey'];
 //AppSecret 信息，请替换
-        $secret = 'ab3c266be450c935830da7e3d7d368ef';
+        $secret = $this->proxyConfig['secret'];
 
 //示例请求参数
         $paramMap = array(

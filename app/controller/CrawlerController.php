@@ -17,18 +17,22 @@ use BuildInfo\model\Crawlers;
 
 class CrawlerController extends BaseController
 {
+    private $crawlerConfig = [];
+
     function init()
     {
         // Eloquent ORM
         $dbManager = new Manager;
         $dbManager->addConnection(require ROOT_DIR . '/config/database.php');
         $dbManager->bootEloquent();
+
     }
 
     function __construct(OutputInterface $output)
     {
         parent::__construct($output);
         $this->init();
+        $this->crawlerConfig = require_once ROOT_DIR . '/config/crawlers.php';
     }
 
     function start()
@@ -110,12 +114,13 @@ class CrawlerController extends BaseController
 //        }
     }
 
-    function runSigle($crawlerId){
-        if(empty($crawlerId)){
+    function runSigle($crawlerId)
+    {
+        if (empty($crawlerId)) {
             exit('no $crawlerId');
         }
         $output = $this->output;
-        $crawlerInfo = Crawlers::where('id', $crawlerId)->first();
+        $crawlerInfo = $this->crawlerConfig[$crawlerId];//Crawlers::where('id', $crawlerId)->first();
         $crawler = CrawlerBuilder::getCrawler($crawlerInfo);
         if (empty($crawler)) {
             $output->writeln('class of crawler is undefined', OutputInterface::OUTPUT_RAW);

@@ -16,6 +16,7 @@ class ScjstCompanyCrawler extends BaseCrawler
     public $bodyQuery;
     protected $companiesInPage = 0;
     public $useproxy = true;
+    protected $maybeEnd=false;
 
     function __construct($urlRaw)
     {
@@ -329,7 +330,11 @@ class ScjstCompanyCrawler extends BaseCrawler
             echo "one company finish!\n";
             $lines[] = $compDetail;
         }
-        $this->companiesInPage = count($lines);
+        $thisPageLines=count($lines);
+        if($this->companiesInPage<1 && $thisPageLines===0){
+            $this->maybeEnd=true;
+        }
+        $this->companiesInPage = $thisPageLines;
         if (!empty($lines)) {
             return true;
         }
@@ -348,7 +353,7 @@ class ScjstCompanyCrawler extends BaseCrawler
 
     function moveToNext()
     {
-        if ($this->page >= 143) {
+        if ($this->maybeEnd) {
 //            $this->page = $this->redis->set(__CLASS__, 0);
             return false;
         }

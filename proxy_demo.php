@@ -1,23 +1,23 @@
 <?php
-//ÉèÖÃÊ±Çø£¨Ê¹ÓÃÖÐ¹úÊ±¼ä£¬ÒÔÃâÊ±Çø²»Í¬µ¼ÖÂÈÏÖ¤´íÎó£©
+//è®¾ç½®æ—¶åŒºï¼ˆä½¿ç”¨ä¸­å›½æ—¶é—´ï¼Œä»¥å…æ—¶åŒºä¸åŒå¯¼è‡´è®¤è¯é”™è¯¯ï¼‰
 date_default_timezone_set("Asia/Shanghai");
-//AppKey ÐÅÏ¢£¬ÇëÌæ»»
+//AppKey ä¿¡æ¯ï¼Œè¯·æ›¿æ¢
 $appKey = '162257779';
-//AppSecret ÐÅÏ¢£¬ÇëÌæ»»
+//AppSecret ä¿¡æ¯ï¼Œè¯·æ›¿æ¢
 $secret = 'ab3c266be450c935830da7e3d7d368ef';
 
-//Ê¾ÀýÇëÇó²ÎÊý
+//ç¤ºä¾‹è¯·æ±‚å‚æ•°
 $paramMap = array(
     'app_key' => $appKey,
     'timestamp' => date('Y-m-d H:i:s')
 );
 
-//°´ÕÕ²ÎÊýÃûÅÅÐò
+//æŒ‰ç…§å‚æ•°åæŽ’åº
 ksort($paramMap);
-//Á¬½Ó´ý¼ÓÃÜµÄ×Ö·û´®
+//è¿žæŽ¥å¾…åŠ å¯†çš„å­—ç¬¦ä¸²
 $codes = $secret;
 
-//ÇëÇóµÄURL²ÎÊý
+//è¯·æ±‚çš„URLå‚æ•°
 $auth = 'MYH-AUTH-MD5 ';
 foreach ($paramMap as $key => $val) {
     $codes .= $key . $val;
@@ -26,21 +26,20 @@ foreach ($paramMap as $key => $val) {
 
 $codes .= $secret;
 
-//Ç©Ãû¼ÆËã
+//ç­¾åè®¡ç®—
 $auth .= 'sign=' . strtoupper(md5($codes));
 
-//½ÓÏÂÀ´Ê¹ÓÃÂìÒÏ¶¯Ì¬´úÀí½øÐÐ·ÃÎÊ£¨Ò²¿ÉÒÔÊ¹ÓÃcurl·½Ê½)
+//æŽ¥ä¸‹æ¥ä½¿ç”¨èš‚èšåŠ¨æ€ä»£ç†è¿›è¡Œè®¿é—®ï¼ˆä¹Ÿå¯ä»¥ä½¿ç”¨curlæ–¹å¼)
 $opts = array(
     'http' => array(
-        'proxy' => '123.56.160.119:8123',
+        'proxy' => 's2.proxy.mayidaili.com:8123',
         'request_fulluri' => true,
         'header' => "Proxy-Authorization: {$auth}",
     ),
 );
 $context = stream_context_create($opts);
-exit;
+//exit;
 //$ip = file_get_contents("http://jzsc.mohurd.gov.cn/dataservice/query/comp/list", false, $context);
-$ip = file_get_contents("http://www.ip138.com/ips1388.asp", false, $context);
+$ip = file_get_contents("http://1212.ip138.com/ic.asp", false, $context);
 
 echo $ip;
-?>

@@ -11,10 +11,10 @@ use BuildInfo\model\Crawlers;
 
 class CrawlerBuilder
 {
-    public static function getCrawler(Crawlers $crawlerInfo)
+    public static function getCrawler($crawlerInfo)
     {
-        $crawlerClass= new \ReflectionClass('BuildInfo\\crawler\\'.$crawlerInfo->class);
-        $crawler=$crawlerClass->newInstanceArgs([$crawlerInfo->url]);
+        $crawlerClass= new \ReflectionClass('BuildInfo\\crawler\\'.$crawlerInfo['class']);
+        $crawler=$crawlerClass->newInstanceArgs([$crawlerInfo['url']]);
         return $crawler;
     }
 }
