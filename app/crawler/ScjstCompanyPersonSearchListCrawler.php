@@ -72,8 +72,9 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
         $this->postData = null;
         $this->certNumbers = [];
         $page = 1;
+        $this->nextChildPage($compName, $page);
         do {
-            $url = 'http://www.scjst.gov.cn:8081/QueryInfo/Person/PersonList.aspx?ryname=&zsh=&type=401&entename=' . urlencode($compName);
+            $url = 'http://www.scjst.gov.cn:8081/QueryInfo/Person/PersonList.aspx';
             $this->tooManyNot200 = false;
             $this->getContentAndSaveToBody($url);
             if (empty($this->body) || $this->tooManyNot200) {
@@ -125,21 +126,17 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
         $hidden = [];
         $hidden['__VIEWSTATE'] = $this->bodyQuery->find('#__VIEWSTATE')->attr('value');
         $hidden['__EVENTTARGET'] = 'ctl00$mainContent$gvBiddingResultPager';
-        $hidden['__EVENTARGUMENT'] = 1;
+        $hidden['__EVENTARGUMENT'] = $page;
         $hidden['__EVENTVALIDATION'] = $this->bodyQuery->find('#__EVENTVALIDATION')->attr('value');
-        $hidden['ctl00$ucSearch$target'] = '/QueryInfo/Person/PersonList.aspx?type=401';
-        $hidden['ctl00$ucSearch$txt_keyvalue'] = '';
-        $hidden['ctl00$ucSearch$txt_certiNo'] = '';
-        $hidden['ctl00$ucSearch$ddlType'] = '';
-        $hidden['ctl00$ucSearch$txt_rykeyvalue'] = '';
-        $hidden['ctl00$ucSearch$txt_ryRegNo'] = '';
-        $hidden['ctl00$ucSearch$txt_entename'] = '';
-        $hidden['ctl00$ucSearch$txt_xmkeyvalue'] = '';
-        $hidden['ctl00$mainContent$cxtj'] = ' where b.qymc = \'' . $compName . '\' and b.ZSLX = \'401\' and b.ZSYXQJSSJ > \'' . date('Y-m-d') . 'T00:00:00\' and b.XM not in (' . implode(',', $this->certNumbers) . ') ';
-//        echo $hidden['ctl00$mainContent$cxtj'];
-//        exit;
-        $hidden['ctl00$mainContent$isType'] = '2';
-        $hidden['ctl00$mainContent$rylx114'] = '401';
+        $hidden['ctl00$mainContent$txt_rymc'] = '';
+        $hidden['ctl00$mainContent$txt_entname'] = $compName;
+        $hidden['ctl00$mainContent$txt_zch'] = '';
+        $hidden['UBottom1:dg1'] = '';
+        $hidden['UBottom1:dg2'] = '';
+        $hidden['UBottom1:dg3'] = '';
+        $hidden['UBottom1:dg4'] = '';
+        $hidden['UBottom1:dg5'] = '';
+        $hidden['UBottom1:dg6'] = '';
 //        print_r($hidden);
 //        exit;
         $this->postData = $hidden;
@@ -176,8 +173,8 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
 //            if (trim($person['certNumber']) != '') {
 //                $this->certNumbers[] = "'" . addslashes($person['certNumber']) . "'";
 //            }
-            $person['certMajor'] = $this->explodeMajor(trim($tr->find('td')->eq(5)->text()));
-            $person['endTime'] = strtotime(trim($tr->find('td')->eq(6)->text()));
+            $person['certMajor'] = $this->explodeMajor(trim($tr->find('td')->eq(6)->text()));
+            $person['endTime'] = strtotime(trim($tr->find('td')->eq(5)->text()));
             $certClass = trim($tr->find('td')->eq(7)->text());
             $certPair = $this->explainCert($certClass);
             $person['certName'] = $certPair['name'];

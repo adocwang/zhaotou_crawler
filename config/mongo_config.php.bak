@@ -9,6 +9,7 @@
 return [
     'port'=>'27017',
     'host'=>'127.0.0.1',
+    'authSource' => 'admin',
     'username' => 'build_info',
     'password' => '15309164'
 ];

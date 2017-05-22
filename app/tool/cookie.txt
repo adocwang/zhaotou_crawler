@@ -4,3 +4,4 @@
 
 #HttpOnly_xmgk.scjst.gov.cn	FALSE	/	FALSE	0	ASP.NET_SessionId	xuzdz035c3ycrymdaxvejf13
 www.cwun.org	FALSE	/	FALSE	0	PHPSESSID	9qhp54vkjr0p7t54hf08mmp5c2
+#HttpOnly_www.scjst.gov.cn	FALSE	/	FALSE	0	ASP.NET_SessionId	amdfpni4zstata1vncekooq0
