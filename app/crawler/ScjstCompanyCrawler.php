@@ -235,6 +235,7 @@ class ScjstCompanyCrawler extends BaseCrawler
             '营业执照号／统一社会信用代码' => 'licienceNumber',
             '所属地区' => 'province',
             '注 册 地 址' => 'address',
+            '办 公 地 址'=>'address',
             '法 定 代 表 人' => 'legalMan',
             '企业类型' => 'compType',
             '注册资本' => 'capital',
@@ -246,6 +247,7 @@ class ScjstCompanyCrawler extends BaseCrawler
             '企业经理' => 'compMamager',
             '技术负责人' => 'techMamager',
             '组织机构代码或统一社会信用代码' => 'organizationCode',
+            '安全许可证号' => 'anxuNum'
         ];
         $enName = $map[trim($chineseName)];
         $value = trim($value);

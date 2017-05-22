@@ -150,5 +150,8 @@ class CrawlerController extends BaseController
             }
             $moveSuccess = $crawler->moveToNext();
         } while ($moveSuccess);
+        if(!$moveSuccess){
+            $output->writeln('no next stop!');
+        }
     }
 }
