@@ -318,6 +318,7 @@ class ScjstCompanyCrawler extends BaseCrawler
         $this->content = $this->bodyQuery->find('.page-content')->find('.list');
         $trs = $this->content->find('tr');
         $lineNum = 0;
+        $lines=[];
         foreach ($trs as $tr) {
             if (++$lineNum == 1) {
                 continue;
