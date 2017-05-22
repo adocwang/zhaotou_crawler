@@ -127,12 +127,19 @@ class CrawlerController extends BaseController
         }
 //            $crawler->page = 756;
         $moveSuccess = true;
+        $failedTimes = 0;
         do {
             try {
                 $res = $crawler->savePage();
                 if ($res) {
+                    $failedTimes = 0;
                     $output->writeln('saved page success:' . $crawler->page);
                 } else {
+                    $failedTimes++;
+                    if($failedTimes>10){
+                        $output->writeln('stop! too many saved page failed!');
+                        break;
+                    }
                     $output->writeln('saved page failed:' . $crawler->page);
                     continue;
                 }

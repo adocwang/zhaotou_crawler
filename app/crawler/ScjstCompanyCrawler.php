@@ -339,7 +339,7 @@ class ScjstCompanyCrawler extends BaseCrawler
         if (!empty($lines)) {
             return true;
         }
-        return false;
+        return true;
     }
 
     function doSomeFix()
