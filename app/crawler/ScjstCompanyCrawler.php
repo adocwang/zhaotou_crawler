@@ -334,12 +334,13 @@ class ScjstCompanyCrawler extends BaseCrawler
         $thisPageLines=count($lines);
         if($this->companiesInPage<1 && $thisPageLines===0){
             $this->maybeEnd=true;
+            return true;
         }
         $this->companiesInPage = $thisPageLines;
         if (!empty($lines)) {
             return true;
         }
-        return true;
+        return false;
     }
 
     function doSomeFix()
