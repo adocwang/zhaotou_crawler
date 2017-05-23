@@ -49,7 +49,7 @@ class ShuiLiBuShuiAnCrawler extends BaseCrawler
     function saveCompany($compInfo)
     {
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->shui_an;
+        $collection = $this->mongoConnection->build_info1->shui_an;
         try {
             $has = $collection->findOne(['certNumber' => $compInfo['certNumber']]);
             if (!$has) {

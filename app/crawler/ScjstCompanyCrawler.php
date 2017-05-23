@@ -347,7 +347,7 @@ class ScjstCompanyCrawler extends BaseCrawler
 
     function doSomeFix()
     {
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->company;
+        $collection = $this->mongoConnection->build_info1->company;
         $companys = $collection->find(['compName' => ['$exists' => false]]);
         foreach ($companys as $company) {
             $siteId = $company['siteId'];

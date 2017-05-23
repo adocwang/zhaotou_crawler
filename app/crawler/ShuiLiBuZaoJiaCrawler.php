@@ -49,7 +49,7 @@ class ShuiLiBuZaoJiaCrawler extends BaseCrawler
     function saveCompany($compInfo)
     {
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->shui_li_zao_jia;
+        $collection = $this->mongoConnection->build_info1->shui_li_zao_jia;
         try {
             $has = $collection->findOne(['certNumber' => $compInfo['certNumber']]);
             if (!$has) {

@@ -50,7 +50,7 @@ class ZhuCeAnQuanGongChengShiCrawler extends BaseCrawler
 
     function saveCompany($compInfo)
     {
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->an_quan_gong_cheng_shi;
+        $collection = $this->mongoConnection->build_info1->an_quan_gong_cheng_shi;
         $document = $collection->findOne(['compName' => $compInfo['compName']]);
         if (!empty($document)) {
             echo "company exists!\n";
@@ -87,7 +87,7 @@ class ZhuCeAnQuanGongChengShiCrawler extends BaseCrawler
     function savePage()
     {
 //        $this->saveCompany('7c6c6710-4ece-43c5-8013-5dc88dd4d273');// for test
-        $this->companyCollection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->company;
+        $this->companyCollection = $this->mongoConnection->build_info1->company;
         $companies = $this->companyCollection->find([], [
             'limit' => $this->limit,
             'sort' => ['_id' => 1],

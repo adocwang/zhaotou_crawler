@@ -31,20 +31,8 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 1);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->shuiLiBuWuDaYuanCollection = $this->getDb()->build_info1->shui_li_wu_da_yuan;
+        $this->shuiLiBuWuDaYuanCollection = $this->mongoConnection->build_info1->shui_li_wu_da_yuan;
         parent::__construct($urlRaw);
-    }
-
-
-    function getDb($new = false)
-    {
-        if ($new) {
-            return new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        if (empty(self::$mongoInstance)) {
-            self::$mongoInstance = new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        return self::$mongoInstance;
     }
 
     function getContentAndSaveToBody($url)

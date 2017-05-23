@@ -34,10 +34,10 @@ class ZhuJianBuCompanyPersonSearchListCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->companyCollection = $this->getDb()->build_info1->company;
-        $this->jianZaoShiCollection = $this->getDb()->build_info1->zhu_ce_jian_zao_shi;
-        $this->tuJianZaoJiaCollection = $this->getDb()->build_info1->tu_jian_zao_jia;
-        $this->zhujianbuPersonCollection = $this->getDb()->build_info1->zhu_jian_bu_person;
+        $this->companyCollection = $this->mongoConnection->build_info1->company;
+        $this->jianZaoShiCollection = $this->mongoConnection->build_info1->zhu_ce_jian_zao_shi;
+        $this->tuJianZaoJiaCollection = $this->mongoConnection->build_info1->tu_jian_zao_jia;
+        $this->zhujianbuPersonCollection = $this->mongoConnection->build_info1->zhu_jian_bu_person;
         parent::__construct($urlRaw);
     }
 
@@ -46,17 +46,6 @@ class ZhuJianBuCompanyPersonSearchListCrawler extends BaseCrawler
         $this->body = $this->doRequest($url, $this->postData);
 //        print_r($this->postData);
         return $this->body;
-    }
-
-    function getDb($new = false)
-    {
-        if ($new) {
-            return new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        if (empty(self::$mongoInstance)) {
-            self::$mongoInstance = new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        return self::$mongoInstance;
     }
 
     function doRequest($url = '', $postData = [])

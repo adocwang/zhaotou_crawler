@@ -35,7 +35,7 @@ class SichuanJiaotongCreditCrawler extends BaseCrawler
     function saveCompany($compInfo)
     {
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->jiaotong_credit;
+        $collection = $this->mongoConnection->build_info1->jiaotong_credit;
         try {
             $has = $collection->findOne(['compName' => $compInfo['compName']]);
             if (!$has) {

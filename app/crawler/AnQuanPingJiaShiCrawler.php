@@ -48,7 +48,7 @@ class AnQuanPingJiaShiCrawler extends BaseCrawler
     function savePerson($contentDom)
     {
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->an_quan_ping_jia_shi;
+        $collection = $this->mongoConnection->build_info1->an_quan_ping_jia_shi;
         $trs = $contentDom->find("tr");
         $pairs = $this->trs2pair($trs);
         $personInfo = [];
@@ -129,7 +129,7 @@ class AnQuanPingJiaShiCrawler extends BaseCrawler
     function savePage()
     {
 //        $this->saveCompany('7c6c6710-4ece-43c5-8013-5dc88dd4d273');// for test$collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->an_quan_ping_jia_shi;
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->an_quan_ping_jia_shi;
+        $collection = $this->mongoConnection->build_info1->an_quan_ping_jia_shi;
         $personInDb = $collection->findOne(['siteId' => $this->page]);
         if (!empty($personInDb)) {
             echo "exist!\n";

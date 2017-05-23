@@ -35,8 +35,8 @@ class ScjstPeopleCrawler2 extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = 0;
         }
-        $this->scjstPersonCollection = $this->getDb()->build_info1->scjst_person;
-        $this->scjstPersonDetailCollection = $this->getDb()->build_info1->scjst_person_detail;
+        $this->scjstPersonCollection = $this->mongoConnection->build_info1->scjst_person;
+        $this->scjstPersonDetailCollection = $this->mongoConnection->build_info1->scjst_person_detail;
         parent::__construct($urlRaw);
     }
 
@@ -44,14 +44,6 @@ class ScjstPeopleCrawler2 extends BaseCrawler
     {
         $this->body = $this->doRequest($url, $this->postData);
         return $this->body;
-    }
-
-    function getDb()
-    {
-        if (empty(self::$mongoInstance)) {
-            self::$mongoInstance = new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        return self::$mongoInstance;
     }
 
     function doRequest($url = '', $postData = [])

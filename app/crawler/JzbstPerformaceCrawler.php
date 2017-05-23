@@ -37,7 +37,7 @@ class JzbstPerformaceCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->performaceCollection = $this->getDb()->build_info1->jsbst_performace;
+        $this->performaceCollection = $this->mongoConnection->build_info1->jsbst_performace;
         parent::__construct($urlRaw);
     }
 
@@ -46,17 +46,6 @@ class JzbstPerformaceCrawler extends BaseCrawler
         $this->body = $this->doRequest($url, $this->postData);
 //        print_r($this->postData);
         return $this->body;
-    }
-
-    function getDb($new = false)
-    {
-        if ($new) {
-            return new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        if (empty(self::$mongoInstance)) {
-            self::$mongoInstance = new \MongoDB\Client('mongodb://localhost:27017');
-        }
-        return self::$mongoInstance;
     }
 
     function doRequest($url = '', $postData = [])

@@ -61,7 +61,7 @@ class MohurdGovCnCompanyCrawler extends BaseCrawler
         $compInfo['engineerInfo'] = $this->getEngineer($compInfo['sourceData']);//engineer的corpid是sourceData
         $compInfo['engineerUpdateTime'] = time();
 //        print_r($compInfo);exit;
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info->companies;
+        $collection = $this->mongoConnection->build_info->companies;
         try {
             $has = $collection->findOne(['CorpName' => $compInfo['CorpName']]);
             if (!$has) {

@@ -53,7 +53,7 @@ class GongLuXinYongCrawler extends BaseCrawler
 //        print_r($compInfo);
 //        exit;
 //        $this->getEngineer($id);//for test
-        $collection = (new \MongoDB\Client('mongodb://localhost:27017'))->build_info1->gong_lu_xin_yong;
+        $collection = $this->mongoConnection->build_info1->gong_lu_xin_yong;
         try {
             $has = $collection->findOne(['detailLink' => $compInfo['detailLink']]);
             if (!$has) {
