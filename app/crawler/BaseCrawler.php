@@ -36,7 +36,7 @@ abstract class BaseCrawler
         $this->proxyConfig = require ROOT_DIR . '/config/mayidaili.php';
         $mongoConfig = require ROOT_DIR . '/config/mongo_config.php';
         if (isset($mongoConfig['username']) && $mongoConfig['username']) {
-            $uri = 'mongodb://' . $mongoConfig['username'] . ":" . $mongoConfig['password'] . '@' . $mongoConfig['host'] . ':' . $mongoConfig['port']."?authSource=". $mongoConfig['authSource'];
+            $uri = 'mongodb://' . $mongoConfig['username'] . ":" . $mongoConfig['password'] . '@' . $mongoConfig['host'] . ':' . $mongoConfig['port']."/?authSource=". $mongoConfig['authSource'];
         } else {
             $uri = 'mongodb://' . $mongoConfig['host'] . ':' . $mongoConfig['port'];
         }
