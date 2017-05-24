@@ -34,11 +34,11 @@ class ZhuJianBuCompanyPersonSearchListCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = $this->redis->get(__CLASS__);
         }
+        parent::__construct($urlRaw);
         $this->companyCollection = $this->mongoConnection->build_info1->company;
         $this->jianZaoShiCollection = $this->mongoConnection->build_info1->zhu_ce_jian_zao_shi;
         $this->tuJianZaoJiaCollection = $this->mongoConnection->build_info1->tu_jian_zao_jia;
         $this->zhujianbuPersonCollection = $this->mongoConnection->build_info1->zhu_jian_bu_person;
-        parent::__construct($urlRaw);
     }
 
     function getContentAndSaveToBody($url)

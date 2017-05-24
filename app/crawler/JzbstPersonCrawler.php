@@ -37,8 +37,8 @@ class JzbstPersonCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->personCollection = $this->mongoConnection->build_info1->jsbst_person;
         parent::__construct($urlRaw);
+        $this->personCollection = $this->mongoConnection->build_info1->jsbst_person;
     }
 
     function getContentAndSaveToBody($url)

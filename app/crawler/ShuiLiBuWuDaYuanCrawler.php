@@ -31,8 +31,8 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 1);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->shuiLiBuWuDaYuanCollection = $this->mongoConnection->build_info1->shui_li_wu_da_yuan;
         parent::__construct($urlRaw);
+        $this->shuiLiBuWuDaYuanCollection = $this->mongoConnection->build_info1->shui_li_wu_da_yuan;
     }
 
     function getContentAndSaveToBody($url)

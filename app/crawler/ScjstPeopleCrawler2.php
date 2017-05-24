@@ -35,9 +35,9 @@ class ScjstPeopleCrawler2 extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = 0;
         }
+        parent::__construct($urlRaw);
         $this->scjstPersonCollection = $this->mongoConnection->build_info1->scjst_person;
         $this->scjstPersonDetailCollection = $this->mongoConnection->build_info1->scjst_person_detail;
-        parent::__construct($urlRaw);
     }
 
     function getContentAndSaveToBody($url)

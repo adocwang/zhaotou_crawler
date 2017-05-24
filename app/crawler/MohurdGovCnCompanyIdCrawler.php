@@ -31,8 +31,8 @@ class MohurdGovCnCompanyIdCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = 0;
         }
-        $this->companyCollection = $this->mongoConnection->build_info1->company;
         parent::__construct($urlRaw);
+        $this->companyCollection = $this->mongoConnection->build_info1->company;
     }
 
     function getContentAndSaveToBody($url)

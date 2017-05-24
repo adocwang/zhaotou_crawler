@@ -38,8 +38,8 @@ class JzbstCompanyCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 0);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->companyCollection = $this->mongoConnection->build_info1->jsbst_company;
         parent::__construct($urlRaw);
+        $this->companyCollection = $this->mongoConnection->build_info1->jsbst_company;
     }
 
     function getContentAndSaveToBody($url)

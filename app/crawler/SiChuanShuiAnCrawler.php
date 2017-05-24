@@ -32,8 +32,8 @@ class SiChuanShuiAnCrawler extends BaseCrawler
             $this->redis->set(__CLASS__, 1);
             $this->page = $this->redis->get(__CLASS__);
         }
-        $this->siChuanShuiAnCollection = $this->mongoConnection->build_info1->si_chuan_shui_an;
         parent::__construct($urlRaw);
+        $this->siChuanShuiAnCollection = $this->mongoConnection->build_info1->si_chuan_shui_an;
     }
 
     function getContentAndSaveToBody($url)
