@@ -35,7 +35,7 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
         }
         parent::__construct($urlRaw);
         $this->companyCollection = $this->mongoConnection->build_info1->company;
-        $this->scjstPersonCollection = $this->mongoConnection->build_info1->scjst_person_san_lei_copy;
+        $this->scjstPersonCollection = $this->mongoConnection->build_info1->scjst_person;
     }
 
     function getContentAndSaveToBody($url)
