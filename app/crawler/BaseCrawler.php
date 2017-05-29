@@ -11,6 +11,7 @@ namespace BuildInfo\crawler;
 use GuzzleHttp;
 use GuzzleHttp\Exception\RequestException;
 use BuildInfo\tool\Client;
+use BuildInfo\proxy\ProxyBuilder;
 
 abstract class BaseCrawler
 {
@@ -25,7 +26,10 @@ abstract class BaseCrawler
     public static $proxyId = 0;
     public $useproxy = true;
     public $lastRequestInfo;
-    private $proxyConfig = [];
+    /**
+     * @var $proxy \BuildInfo\proxy\BaseProxy
+     */
+    private $proxy;
     public $mongoConnection;
 
     function __construct($urlRaw)
@@ -33,7 +37,8 @@ abstract class BaseCrawler
         $this->urlRaw = $urlRaw;
         $this->url = str_replace('{page}', $this->page, $this->urlRaw);
         $this->baseUri = new \Purl\Url($this->url);
-        $this->proxyConfig = require ROOT_DIR . '/config/mayidaili.php';
+        $proxyConfig = require ROOT_DIR . '/config/proxy.php';
+        $this->proxy = ProxyBuilder::getProxy($proxyConfig);
         $mongoConfig = require ROOT_DIR . '/config/mongo_config.php';
         if (isset($mongoConfig['username']) && $mongoConfig['username']) {
             $uri = 'mongodb://' . $mongoConfig['username'] . ":" . $mongoConfig['password'] . '@' . $mongoConfig['host'] . ':' . $mongoConfig['port'];
@@ -76,20 +81,12 @@ abstract class BaseCrawler
 //                    'debug' => true,
 //                    'track_redirects' => false
                 ];
-                $options['headers']['Proxy-Authorization'] = $this->getProxyAuthHeader();
                 if ($this->useproxy && $seconds < 2048) {
-//                self::$proxies[] = '115.239.41.15:59679';
-//                    if (count(self::$proxies) < 1 || self::$proxyId >= count(self::$proxies)) {
-//                        self::$proxyId = 0;
-//                        self::$proxies = $this->getProxy();
-//                        if (empty(self::$proxies)) {
-//                            echo "got no proxy\n";
-//                            sleep(10);
-//                        }
-//                    }
-//                    $options['proxy'] = ['http' => 'tcp://' . trim(self::$proxies[self::$proxyId])];
-                    $options['proxy'] = $this->proxyConfig['ip'] . ':' . $this->proxyConfig['port'];
-//                    $options['proxy'] = '127.0.0.1:8888';
+                    $options['proxy'] = $this->proxy->getAddress();
+                    $headers = $this->proxy->getHeaders();
+                    foreach ($headers as $key => $value) {
+                        $options['headers'][$key] = $value;
+                    }
                 }
 //                print_r($options);exit;
 //                echo self::$proxies[$proxyId];exit;
@@ -142,66 +139,6 @@ abstract class BaseCrawler
     {
         return "";
     }
-
-    function getProxy()
-    {
-        //http://api.xicidaili.com/free2016.txt
-        $ipports = [];
-        $ch = curl_init();
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_URL, 'http://dynamic.goubanjia.com/dynamic/get/21efca81ec01367409c5a98491e94e49.html');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $ipports = explode("\n", curl_exec($ch));
-        curl_close($ch);
-        foreach ($ipports as $key => $ipport) {
-            if (trim($ipport) == "") {
-                unset($ipports[$key]);
-            }
-        }
-        print_r($ipports);
-        return $ipports;
-//        exit;
-    }
-
-    function getProxyAuthHeader()
-    {
-        //设置时区（使用中国时间，以免时区不同导致认证错误）
-        date_default_timezone_set("Asia/Shanghai");
-//AppKey 信息，请替换
-        $appKey = $this->proxyConfig['appKey'];
-//AppSecret 信息，请替换
-        $secret = $this->proxyConfig['secret'];
-
-//示例请求参数
-        $paramMap = array(
-            'app_key' => $appKey,
-            'timestamp' => date('Y-m-d H:i:s')
-        );
-
-//按照参数名排序
-        ksort($paramMap);
-//连接待加密的字符串
-        $codes = $secret;
-
-//请求的URL参数
-        $auth = 'MYH-AUTH-MD5 ';
-        foreach ($paramMap as $key => $val) {
-            $codes .= $key . $val;
-            $auth .= $key . '=' . $val . '&';
-        }
-
-        $codes .= $secret;
-
-//签名计算
-        $auth .= 'sign=' . strtoupper(md5($codes));
-        return $auth;
-    }
-
-//    function __call($name, $arguments)
-//    {
-//        // TODO: Implement __call() method.
-//    }
 
     function requestNot200()
     {

@@ -86,7 +86,7 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
 
     function moveToNext()
     {
-        if ($this->page > 126000) {
+        if ($this->page > 138553) {
             return false;
         }
         $this->page = $this->redis->incr(__CLASS__);
