@@ -127,8 +127,8 @@ abstract class BaseCrawler
                         return false;
                     }
                 }
-                echo $this->page . 'proxy broken: ' . self::$proxies[self::$proxyId] . "\n";
-                self::$proxyId++;
+                echo $this->page . "proxy broken: \n";
+//                self::$proxyId++;
                 echo 'failed:' . $e->getMessage() . ' sleep:' . $seconds . "\n";
                 sleep(2);
             }

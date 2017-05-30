@@ -53,7 +53,7 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
     function saveCompany($compName)
     {
 //        $compName = '四川尧顺建设集团有限公司';
-        while (((int)date('h')) < 3 && ((int)date('h')) >= 1) {
+        while (((int)date('G')) < 3 && ((int)date('G')) >= 1) {
             sleep(2);
             echo 'time counter:' . (date('h:i:s')) . "\n";
         }
@@ -104,7 +104,7 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
             return true;
         }
         $paginator = $this->bodyQuery->find('.paginator')->eq(0);
-        echo $this->bodyQuery->find('.paginator-custom-data')->eq(0)->text()."\n";
+        echo $this->bodyQuery->find('.paginator-custom-data')->eq(0)->text() . "\n";
         $as = $paginator->find('a');
         foreach ($as as $a) {
             $text = trim($a->text());
@@ -172,7 +172,13 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
             $certPair = $this->explainCert($certClass);
             $person['certName'] = $certPair['name'];
             $person['certLevel'] = $certPair['level'];
-            if ($this->scjstPersonCollection->findOne(['compName' => $person['compName'], 'certNumber' => $person['certNumber']])) {
+            if ($this->scjstPersonCollection->findOne(
+                [
+                    'name' => $person['name'],
+                    'compName' => $person['compName'],
+                    'certNumber' => $person['certNumber'],
+                ])
+            ) {
                 echo "exist " . $person['certNumber'] . " {$compName}\n";
                 continue;
             }
@@ -243,13 +249,13 @@ class ScjstCompanyPersonSearchListCrawler extends BaseCrawler
             'skip' => $this->page * $this->limit
         ]);
         foreach ($companies as $company) {
-            echo "-------------------------------------\n-----start company ".$company['compName']."\n";
+            echo "-------------------------------------\n-----start company " . $company['compName'] . "\n";
             $res = $this->saveCompany($company['compName']);
             if ($res === -1) {
                 $this->scjstPersonCollection->insertOne(['error' => 2, 'compName' => $company['compName']]);
                 echo "clean postdata and restart this person\n";
             }
-            echo "-----finish company ".$company['compName']."\n-------------------------------------\n";
+            echo "-----finish company " . $company['compName'] . "\n-------------------------------------\n";
         }
         return true;
     }

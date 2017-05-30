@@ -15,7 +15,7 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
 {
     public $bodyQuery;
     public $page = 1;
-    public $useproxy = false;
+    public $useproxy = true;
     private static $mongoInstance;
     private $shuiLiBuWuDaYuanCollection;
 
@@ -60,22 +60,29 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
         $this->content = $this->bodyQuery->find('#table10');
         $trs = $this->content->find('tr');
         $person = [];
-        $person['name'] = trim($trs->eq(1)->find('td')->eq(1)->text());
         $person['certNumber'] = trim($trs->eq(5)->find('td')->eq(1)->text());
+        if (empty($person['certNumber'])) {
+            return true;
+        }
+        $person['siteId'] = $this->page;
+        $person['name'] = trim($trs->eq(1)->find('td')->eq(1)->text());
         $person['endTime'] = strtotime(trim($trs->eq(8)->find('td')->eq(1)->text()));
         $person['compName'] = trim($trs->eq(9)->find('td')->eq(1)->text());
         $certMajorStr = trim($trs->eq(6)->find('td')->eq(1)->text());
         $certMajors = explode(',', $certMajorStr);
         foreach ($certMajors as $certMajor) {
             $person['certMajor'] = $certMajor;
-            $res = $this->savePerson($person);
+            $this->savePerson($person);
         }
         return true;
     }
 
     function savePerson($person)
     {
-        if (!empty($this->shuiLiBuWuDaYuanCollection->findOne($person))) {
+        if (!empty($this->shuiLiBuWuDaYuanCollection->findOne([
+            "certNumber" => $person['certNumber'],
+            "certMajor" => $person['certMajor']
+        ]))) {
             echo "exist \n";
             print_r($person);
             return true;
@@ -86,7 +93,7 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
 
     function moveToNext()
     {
-        if ($this->page > 138553) {
+        if ($this->page > 148880) {
             return false;
         }
         $this->page = $this->redis->incr(__CLASS__);

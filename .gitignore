@@ -2,3 +2,5 @@
 /vendor
 /composer.lock
 /config/mongo_config.php
+/config/proxy.php
+/tool/cookie.txt
