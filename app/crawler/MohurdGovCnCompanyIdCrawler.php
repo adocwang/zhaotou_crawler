@@ -15,7 +15,7 @@ class MohurdGovCnCompanyIdCrawler extends BaseCrawler
 {
     public $postData = [];
     public $bodyQuery;
-    public $useproxy = false;
+    public $useproxy = true;
     public $limit=1;
     private static $mongoInstance;
 

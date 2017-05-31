@@ -21,7 +21,7 @@ class ZhuJianBuCompanyPersonSearchListCrawler extends BaseCrawler
     private $companyCollection;
     private $jianZaoShiCollection;
     private $tuJianZaoJiaCollection;
-    public $useproxy = false;
+    public $useproxy = true;
 
     function __construct($urlRaw)
     {
@@ -169,7 +169,7 @@ class ZhuJianBuCompanyPersonSearchListCrawler extends BaseCrawler
 
     function moveToNext()
     {
-        if ($this->companyCollection->count() <= $this->limit * $this->page) {
+        if ($this->companyCollection->count(['jsbSiteId' => ['$exists' => true]]) <= $this->limit * $this->page) {
             return false;
         }
         $this->page = $this->redis->incr(__CLASS__);

@@ -32,7 +32,7 @@ class CrawlerController extends BaseController
     {
         parent::__construct($output);
         $this->init();
-        $this->crawlerConfig = require_once ROOT_DIR . '/config/crawlers.php';
+        $this->crawlerConfig = require_once ROOT_DIR . '/config/crawler_config.php';
     }
 
     function start()
