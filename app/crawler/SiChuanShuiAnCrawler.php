@@ -19,7 +19,7 @@ class SiChuanShuiAnCrawler extends BaseCrawler
     private static $mongoInstance;
 
     private $siChuanShuiAnCollection;
-    public $useproxy = false;
+    public $useproxy = true;
 
     function __construct($urlRaw)
     {
@@ -34,6 +34,7 @@ class SiChuanShuiAnCrawler extends BaseCrawler
         }
         parent::__construct($urlRaw);
         $this->siChuanShuiAnCollection = $this->mongoConnection->build_info1->si_chuan_shui_an;
+
     }
 
     function getContentAndSaveToBody($url)

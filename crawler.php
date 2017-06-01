@@ -47,6 +47,15 @@ $app->command('run [crawlerId]', function ($crawlerId, OutputInterface $output) 
 
 });
 
+$app->command('runBatch [crawlerIds]', function ($crawlerIds, OutputInterface $output) {
+    $crawlerIdArr = explode(',', $crawlerIds);
+    foreach($crawlerIdArr as $crawlerId) {
+        $crawler = new CrawlerController($output);
+        $crawler->runSigle($crawlerId);
+    }
+
+});
+
 $app->command('jsbIdProcess', function () {
     $processJsbCompIdIntoScjst = new ProcessJsbCompIdIntoScjst();
     $processJsbCompIdIntoScjst->process();

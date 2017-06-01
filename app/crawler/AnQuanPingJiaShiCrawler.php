@@ -26,6 +26,10 @@ class AnQuanPingJiaShiCrawler extends BaseCrawler
         ]);
 //        $this->redis->set(__CLASS__, 12774);
         $this->page = $this->redis->get(__CLASS__);
+        if (empty($this->page)) {
+            $this->redis->set(__CLASS__, 1);
+            $this->page = $this->redis->get(__CLASS__);
+        }
         parent::__construct($urlRaw);
     }
 
@@ -95,6 +99,9 @@ class AnQuanPingJiaShiCrawler extends BaseCrawler
             '注册状态' => 'regState',
             '注册期' => 'regTime',
         ];
+        if(!key_exists($chineseName,$map)){
+            return false;
+        }
         $enName = $map[trim($chineseName)];
         $value = trim($value);
         switch ($enName) {

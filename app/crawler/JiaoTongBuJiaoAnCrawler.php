@@ -273,7 +273,7 @@ class JiaoTongBuJiaoAnCrawler extends BaseCrawler
 
     function moveToNext()
     {
-        if ($this->page >= 3812) {
+        if ($this->page > 5742) {
 //            $this->page = $this->redis->set('ScjstCompanyCrawlerPage', 0);
             return false;
         }

@@ -25,6 +25,7 @@ abstract class BaseCrawler
     public static $proxies = [];
     public static $proxyId = 0;
     public $useproxy = true;
+    public $usecookie = true;
     public $lastRequestInfo;
     /**
      * @var $proxy \BuildInfo\proxy\BaseProxy
@@ -81,6 +82,7 @@ abstract class BaseCrawler
 //                    'debug' => true,
 //                    'track_redirects' => false
                 ];
+                $options['use_cookie']=$this->usecookie;
                 if ($this->useproxy && $seconds < 2048) {
                     $options['proxy'] = $this->proxy->getAddress();
                     $headers = $this->proxy->getHeaders();

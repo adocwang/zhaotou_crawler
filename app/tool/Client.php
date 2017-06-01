@@ -96,7 +96,7 @@ class Client
         }
 
 
-        if(!empty($options['use_proxy']) && $options['use_proxy']){
+        if($options['use_cookie']){
             $cookie_file = dirname(__FILE__).'/cookie.txt';
             curl_setopt($this->curl, CURLOPT_COOKIEFILE, $cookie_file); //使用上面获取的cookies
             curl_setopt($this->curl, CURLOPT_COOKIEJAR,  $cookie_file); //存储cookies

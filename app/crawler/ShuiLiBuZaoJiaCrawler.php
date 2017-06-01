@@ -28,6 +28,7 @@ class ShuiLiBuZaoJiaCrawler extends BaseCrawler
             $this->page = $this->redis->get(__CLASS__);
         }
         parent::__construct($urlRaw);
+        $this->doRequest("http://www.cwun.org/cyry.php");
     }
 
     function getContentAndSaveToBody($url)
