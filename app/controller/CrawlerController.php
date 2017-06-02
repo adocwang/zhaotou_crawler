@@ -117,7 +117,8 @@ class CrawlerController extends BaseController
     function runSigle($crawlerId)
     {
         if (empty($crawlerId)) {
-            exit('no $crawlerId');
+            echo 'no $crawlerId';
+            return false;
         }
         $output = $this->output;
         $crawlerInfo = $this->crawlerConfig[$crawlerId];//Crawlers::where('id', $crawlerId)->first();

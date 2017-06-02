@@ -49,8 +49,8 @@ $app->command('run [crawlerId]', function ($crawlerId, OutputInterface $output) 
 
 $app->command('runBatch [crawlerIds]', function ($crawlerIds, OutputInterface $output) {
     $crawlerIdArr = explode(',', $crawlerIds);
+    $crawler = new CrawlerController($output);
     foreach($crawlerIdArr as $crawlerId) {
-        $crawler = new CrawlerController($output);
         $crawler->runSigle($crawlerId);
     }
 

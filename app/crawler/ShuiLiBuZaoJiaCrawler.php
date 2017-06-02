@@ -33,7 +33,7 @@ class ShuiLiBuZaoJiaCrawler extends BaseCrawler
 
     function getContentAndSaveToBody($url)
     {
-        $this->body = iconv('gb2312', 'utf-8', $this->doRequest($url));
+        $this->body = mb_convert_encoding($this->doRequest($url), 'utf-8', 'gbk');
         return $this->body;
     }
 
