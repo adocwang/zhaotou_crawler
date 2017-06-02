@@ -37,7 +37,7 @@ class ShuiLiBuWuDaYuanCrawler extends BaseCrawler
 
     function getContentAndSaveToBody($url)
     {
-        $this->body = iconv('gbk', 'utf-8', $this->doRequest($url));
+        $this->body = iconv('gb2312', 'utf-8', $this->doRequest($url));
         return $this->body;
     }
 
